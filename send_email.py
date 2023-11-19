@@ -9,7 +9,7 @@ topic_name = "application-status-email"
 
 def publish_to_pubsub(project_id, topic_name, message):
     publisher = pubsub_v1.PublisherClient()
-    topic_path = publisher.topic_path(project_id,topic_name)
+    topic_path = publisher.topic_path(project_id, topic_name)
 
     message_data = json.dumps(message).encode('utf-8')
 
@@ -18,17 +18,23 @@ def publish_to_pubsub(project_id, topic_name, message):
 
     future.result()
 
-def publish(to,subject,body):
-    message = {"to":to,
-               "subject":subject,
-               "body":body}
-    publish_to_pubsub(project_id,topic_name,message)
 
-if __name__=="__main__":
-    message = 	{
-      "to": "dz2506@columbia.edu",
-      "subject": "On python",
-      "body": "This is the email body content."
+def publish(to, subject, body):
+    message = {"to": to,
+               "subject": subject,
+               "body": body}
+    publish_to_pubsub(project_id, topic_name, message)
+
+
+def publish_json(message):
+    publish_to_pubsub(project_id, topic_name, message)
+
+
+if __name__ == "__main__":
+    message = {
+        "to": "dz2506@columbia.edu",
+        "subject": "On python",
+        "body": "This is the email body content."
     }
 
     publish_to_pubsub(project_id, topic_name, message)
