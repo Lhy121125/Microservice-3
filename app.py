@@ -1,5 +1,7 @@
 from flask import Flask,request
 from send_email import *
+import requests
+import json
 
 app = Flask(__name__)
 
@@ -17,6 +19,30 @@ async def send_email():
         publish_json(json_message)
         return {"message":"Success"}
 
-    
+@app.route("/notify")
+async def notify():
+    data = json.loads(request.json)
+    student_id = data['something']
+    url = '/api/students/'+student_id+'/applications'
+    response = requests.get(url)
+    data_r = response.json()
+    dates = data_r['something']
+    email = 'a@b.com'
+    publish(email,"Your Application Deadlines",dates)
+    return "Success"
+
+@app.route("/status")
+def get_status():
+    data = json.loads(request.json)
+    student_id = data['something']
+    url = '/api/students/'+student_id+'/applications'
+    response = requests.get(url)
+    return response.json()
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
