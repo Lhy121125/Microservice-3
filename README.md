@@ -9,8 +9,8 @@ Run docker image on EC2 that specify version: ```sudo docker run -p 5001:5001 dz
 Note: REMEMBER to set the inbound rule for port 5001
 
 
-GET```/notify/<id>``` Will send an email to the id's email.
-GET```/status/<id>``` Will return status of this user's application.
-POST```/email``` Will send a custom email to the specified address.
+GET ```/notify/<id>``` Will send an email to the id's email.<br>
+GET ```/status/<id>``` Will return status of this user's application.<br>
+POST ```/email``` Will send a custom email to the specified address.
 
-The app is now running on <ec2-3-85-14-246.compute-1.amazonaws.com:5001>
+The app is now running on an ec2 instance.
