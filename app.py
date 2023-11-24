@@ -4,6 +4,7 @@ import requests
 import json
 
 app = Flask(__name__)
+info_url= ''
 
 @app.route('/')
 def hello_world():
@@ -19,25 +20,30 @@ async def send_email():
         publish_json(json_message)
         return {"message":"Success"}
 
-@app.route("/notify")
-async def notify():
-    data = json.loads(request.json)
-    student_id = data['something']
-    url = '/api/students/'+student_id+'/applications'
-    response = requests.get(url)
-    data_r = response.json()
-    dates = data_r['something']
-    email = 'a@b.com'
-    publish(email,"Your Application Deadlines",dates)
+@app.route("/notify/<id>")
+async def notify(id):
+    # url = info_url+'/users/'+id
+    # response = requests.get(url)
+    # data_r = response.json()
+    # email = data_r['email']
+    # url = info_url+'/applications/'+id
+    # response = requests.get(url)
+    # applications = response.json()
+    publish("dz2506@columbia.edu","Application Deadlines for "+id,"11/16/2023")
     return "Success"
 
-@app.route("/status")
-def get_status():
-    data = json.loads(request.json)
-    student_id = data['something']
-    url = '/api/students/'+student_id+'/applications'
-    response = requests.get(url)
-    return response.json()
+@app.route("/status/<id>")
+def get_status(id):
+    # url = info_url+'/applications/'+id
+    # response = requests.get(url)
+    # applications = response.json()
+    # return response.json()
+    response = {
+        "Application 1":["company 1", "job 1", "11/26/2023"],
+        "Application 2": ["company 2", "job 2", "11/26/2023"],
+        "Application 3": ["company 3", "job 3", "11/26/2023"],
+    }
+    return json.dumps(response)
 
 
 
