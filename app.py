@@ -22,28 +22,25 @@ async def send_email():
 
 @app.route("/notify/<id>")
 async def notify(id):
-    # url = info_url+'/users/'+id
-    # response = requests.get(url)
-    # data_r = response.json()
-    # email = data_r['email']
-    # url = info_url+'/applications/'+id
-    # response = requests.get(url)
-    # applications = response.json()
-    publish("dz2506@columbia.edu","Application Deadlines for "+id,"11/16/2023")
+    url = info_url+'/users/'+id
+    response = requests.get(url)
+    data_r = response.json()
+    data_r = json.loads(data_r)
+    email = data_r['email']
+    name = data_r['name']
+    url = info_url+'/applications/'+id
+    response = requests.get(url)
+    applications = response.json()
+    publish(email,"Application Status for "+name,applications)
     return "Success"
 
 @app.route("/status/<id>")
 def get_status(id):
-    # url = info_url+'/applications/'+id
-    # response = requests.get(url)
-    # applications = response.json()
-    # return response.json()
-    response = {
-        "Application 1":["company 1", "job 1", "11/26/2023"],
-        "Application 2": ["company 2", "job 2", "11/26/2023"],
-        "Application 3": ["company 3", "job 3", "11/26/2023"],
-    }
-    return json.dumps(response)
+    url = info_url+'/applications/'+id
+    response = requests.get(url)
+    applications = response.json()
+    return applications
+
 
 
 
