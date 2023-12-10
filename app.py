@@ -12,19 +12,34 @@ log.setLevel(logging.ERROR)
 app.wsgi_app = LogMiddleware(app.wsgi_app)
 info_url = ''
 
+schema = {
+    "to" : str,
+    "subject" : str,
+    "body" : str
+}
+
+def validate(data, schema):
+    for field, data_type in schema.items():
+        if field not in data or not isinstance(data[field], data_type):
+            return False
+    return True
+
 @app.route('/')
 def hello_world():
     return "Hello, from Docker!\nWe will use this to deploy application service!"
 
-@app.route("/email", methods = ['GET','POST'])
+
+@app.route("/email", methods=['GET', 'POST'])
 async def send_email():
     if request.method == 'GET':
-        publish("dz2506@columbia.edu","test from docker","test email")
-        return {"message":"Success"}
+        publish("dz2506@columbia.edu", "test from docker", "test email")
+        return {"message": "Success"}
     if request.method == 'POST':
         json_message = request.json
+        if not validate(json_message, schema):
+            return {"error": "invalid format"}, 400
         publish_json(json_message)
-        return {"message":"Success"}
+        return {"message": "Success"}
 
 @app.route("/notify/<id>")
 async def notify(id):
