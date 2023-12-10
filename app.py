@@ -1,10 +1,16 @@
 from flask import Flask,request
 from send_email import *
+from logger import LogMiddleware
+import logging
 import requests
 import json
 
 app = Flask(__name__)
-info_url= ''
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+app.wsgi_app = LogMiddleware(app.wsgi_app)
+info_url = ''
 
 @app.route('/')
 def hello_world():
@@ -40,11 +46,6 @@ def get_status(id):
     response = requests.get(url)
     applications = response.json()
     return applications
-
-
-
-
-
 
 
 if __name__ == "__main__":

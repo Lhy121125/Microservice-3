@@ -6,7 +6,7 @@
 
 **/.DS_Store
 **/__pycache__
-**/.venv
+/venv
 **/.classpath
 **/.dockerignore
 **/.env
@@ -32,3 +32,4 @@
 **/values.dev.yaml
 LICENSE
 README.md
+/logs/server.log
