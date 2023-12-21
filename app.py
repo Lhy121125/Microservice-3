@@ -26,7 +26,7 @@ def validate(data, schema):
 
 @app.route('/')
 def hello_world():
-    return "Hello, from Docker!\nWe will use this to deploy application service!"
+    return "This is the microservice 3. Check Github for documentation."
 
 
 @app.route("/email", methods=['GET', 'POST'])
